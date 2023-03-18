@@ -37,7 +37,7 @@ def check_project_structure():
         sys.exit()
  
 
-def do_inferencing(filename):
+def do_inferencing(filepath):
     client = ovmsclient.make_grpc_client("localhost:9001")
     mdata = client.get_model_metadata(model_name = "efficientdet-d7")
 
@@ -45,7 +45,7 @@ def do_inferencing(filename):
     # If model has only one input, get its name
     input_name = next(iter(mdata["inputs"]))
 
-    img_raw = cv2.imread(filename, cv2.IMREAD_COLOR)
+    img_raw = cv2.imread(filepath, cv2.IMREAD_COLOR)
 
     img_h, img_w = img_raw.shape[0:2]
     img = cv2.resize(img_raw.astype(np.float32), (1536, 1536))
@@ -82,7 +82,8 @@ def do_inferencing(filename):
             color=BBOX_COLOR, 
             thickness=5)
 
-    cv2.imwrite(output_path + "/" + filename + "-result.jpg", img_raw)
+    file = os.path.splitext(os.path.basename(filepath))
+    cv2.imwrite(output_path + "/" + file[0] + "-result.jpg", img_raw)
 
     cv2.namedWindow("output", cv2.WINDOW_NORMAL) 
     cv2.imshow('output', img_raw)

@@ -45,7 +45,6 @@ def do_inferencing(filename):
     # If model has only one input, get its name
     input_name = next(iter(mdata["inputs"]))
 
-    img_raw = cv2.imread("sample_images/carmel_group.jpg", cv2.IMREAD_COLOR)
     img_raw = cv2.imread(filename, cv2.IMREAD_COLOR)
 
     img_h, img_w = img_raw.shape[0:2]
